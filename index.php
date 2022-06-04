@@ -1,44 +1,32 @@
 <?php
 
-function crypting($cryp, $key)
-{
-    $ch = str_split(strtolower($cryp));
-    $kk = str_split(strtolower($key));
+$originpass = "hasanibrahimkozan"; //şifremiz
+$originkey = "hayat"; //key değerimiz
 
-    $arr = array("a" => 1, "b" => 2, "c" => 3, "d" => 4, "e" => 5, "f" => 6, "g" => 7, "h" => 8, "i" => 9, "j" => 10, "k" => 11, "l" => 12, "m" => 13, "n" => 14, "o" => 15, "p" => 16, "q" => 17, "r" => 18, "s" => 19, "t" => 20, "u" => 21, "v" => 22, "w" => 23, "x" => 24, "y" => 25, "z" => 26);
+$ch = str_split($originpass); //şifreyi parçalıyoruz
+$key = str_split($originkey); //keyi parçalıyoruz
 
-    //key degerini alma
-    for ($j = 0; $j < count($kk); $j++) {
-        //keyi parcalama
-        $equal = strtr($kk[$j], $arr) . '-';
-        $keycode = explode("-", $equal);
-    }
+$a = range(1, 26); //1'den 26'ya kadar olan bir dizi
+$b = range('a', 'z'); //a'dan z'ye kadar olan bir dizi
+$c = array_map(null, $a, $b); //$a ve $b dizisinin array_map ile denkleştirilmesi
+for ($i = 0; $i < 26; $i++) { //26 kere dön
+    if (!array_key_exists($i, $ch)) { //eğer $i değeri sifre uzunluğundan büyükse döngüden çık. (key harf sayısı kadar dönüyor döngü)
+        break;
+    } else {
+        $d = array_map(null, $ch, $key); //$ch ve $key dizisinin array_map ile denkleştirilmesi
+        $crypt = $d[$i][1]; //$d dizisinin tek tek her elemanından key değerine karşılık gelen harfi alıyoruz
+        $keyvalue = (array_search($crypt, $b)); //harf dizimizde key değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
+        $passvalue = (array_search($ch[$i], $b)); // harf dizimizde şifre değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
 
-    for ($i = 0; $i < count($ch); $i++) {
-        //sifreyi parcalama
-        $equal = strtr($ch[$i], $arr) . '-';
-        $explode = explode("-", $equal);
-
-        //sifreyi key ile toplama
-        $topla = fmod(($explode[$i] + $keycode[$i]), 26); //şifre de ki harflere karşılık gelen sayı key de ki harflere karşılık gelen sayı ile toplanıp 25 ile mod'u alınacak;
-        $coz = array_search($topla, $arr);
-        print_r($coz);
-        echo "<br>";
-    }
-}
-
-function executeLetters($pass, $keyvalue)
-{
-    $return = "";
-
-    $input = str_split($pass);
-
-    foreach ($input as $p) {
-        $return .= crypting($p, $keyvalue);
+        /**
+         * @todo buradan sonrasına devam et
+         */
+        $equal[] = (int)(fmod(($passvalue + $keyvalue), 26) + 1); //şifreden dönen sayı ile keyden dönen sayıyı toplayıp 26'ya göre modunu alıyoruz ve integer a çevirip $equal dizisine ekliyoruz.
+        @$sifre[] = $b[$equal[$i]];
     }
 }
+$sifre = (implode($sifre));
 
-$sifre = "baris";
-$anahtar = "abc";
-
-$sifrelimetin = executeLetters($sifre, $anahtar);
+echo "Orjinal metin : <b>" . $originpass;
+echo "</b><br>";
+echo "Şifre : <b>" . $sifre;
