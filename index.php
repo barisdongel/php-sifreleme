@@ -1,31 +1,66 @@
-<?php
+<!doctype html>
+<html lang="tr">
 
-$originpass = "hasanibrahimkozan"; //şifremiz
-$originkey = "hayat"; //key değerimiz
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PHP Crypting</title>
+    <meta name="author" content="Barış Ömer DÖNGEL">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
 
-$ch = str_split($originpass); //şifreyi parçalıyoruz
-$key = str_split($originkey); //keyi parçalıyoruz
+<body class="text-center">
+<span>Barış Ömer DÖNGEL</span>
+    <div class="container">
+        <div class="row justify-content-center mt-5 pt-5">
+            <h2 class="display-4 text-center mb-5 pb-5">PHP ENCRYPTPING AND DECRYPTING APP</h2>
+            <div class="col-md-6">
 
-$a = range(1, 26); //1'den 26'ya kadar olan bir dizi
-$b = range('a', 'z'); //a'dan z'ye kadar olan bir dizi
-$c = array_map(null, $a, $b); //$a ve $b dizisinin array_map ile denkleştirilmesi
-for ($i = 0; $i < 26; $i++) { //26 kere dön
-    if (!array_key_exists($i, $ch)) { //eğer $i değeri sifre uzunluğundan büyükse döngüden çık. (key harf sayısı kadar dönüyor döngü)
-        break;
-    } else {
-        $d = array_map(null, $ch, $key); //$ch ve $key dizisinin array_map ile denkleştirilmesi
-        $crypt = $d[$i][1]; //$d dizisinin tek tek her elemanından key değerine karşılık gelen harfi alıyoruz
-        $keyvalue = (array_search($crypt, $b)); //harf dizimizde key değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
-        $passvalue = (array_search($ch[$i], $b)); // harf dizimizde şifre değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
+                <form action="crypting.php" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">What do you want to encrypt ?</label>
+                        <input type="text" name="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Key Value</label>
+                        <input type="text" name="key" class="form-control">
+                    </div>
+                    <button type="submit" name="encrypt" class="btn btn-info text-white rounded-0">Encrypt</button>
+                </form>
 
-        $equal[] = (int)(fmod(($passvalue + $keyvalue), 26) + 1); //şifreden dönen sayı ile keyden dönen sayıyı toplayıp 26'ya göre modunu alıyoruz ve integer a çevirip $equal dizisine ekliyoruz.
-        @$sifre[] = $b[$equal[$i]];//key değerinde ki harflere karşılık gelen sayıları, $b yani harfler dizimizde ki keylere denk gelen harflerle eşleştiriyoruz. Ve eşleşen harfler şifrelenmiş metnimiz oluyor
-    }
-}
-$sifre = (implode($sifre)); //sifre dizisini string'e çeviriyoruz
+            </div>
+            <div class="col-md-6">
+                <form action="decrypting.php" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">What do you want to decrypt ?</label>
+                        <input type="text" name="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Key Value</label>
+                        <input type="text" name="key" class="form-control">
+                    </div>
+                    <button type="submit" name="decrypt" class="btn btn-danger text-white rounded-0">Decrypt</button>
+                </form>
+            </div>
+            <div class="col-md-6 justify-content-center">
+                <br>
+                <br>
+                <label class="form-label fw-bold border-bottom text-success">
+                    <?php
+                    if (!empty($_GET['decryptedtext'])) {
+                        echo "DECRYPTED TEXT : " . base64_decode($_GET['decryptedtext']);
+                    } elseif (!empty($_GET['encryptedtext'])) {
+                        echo "ENCRYPTED TEXT : " . base64_decode($_GET['encryptedtext']);
+                    } else {
+                        echo '';
+                    }
+                    ?>
+                </label>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+</body>
 
-echo "Orjinal metin : <b>" . $originpass;
-echo "</b><br>";
-echo "Key Değeri : <b>" . $originkey;
-echo "</b><br><br>";
-echo "Şifre : <b>" . $sifre;
+</html>
