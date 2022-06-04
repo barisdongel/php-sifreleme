@@ -18,15 +18,14 @@ for ($i = 0; $i < 26; $i++) { //26 kere dön
         $keyvalue = (array_search($crypt, $b)); //harf dizimizde key değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
         $passvalue = (array_search($ch[$i], $b)); // harf dizimizde şifre değerini arıyoruz. dönen yanıt karşılık gelen value değerinin sayısı
 
-        /**
-         * @todo buradan sonrasına devam et
-         */
         $equal[] = (int)(fmod(($passvalue + $keyvalue), 26) + 1); //şifreden dönen sayı ile keyden dönen sayıyı toplayıp 26'ya göre modunu alıyoruz ve integer a çevirip $equal dizisine ekliyoruz.
-        @$sifre[] = $b[$equal[$i]];
+        @$sifre[] = $b[$equal[$i]];//key değerinde ki harflere karşılık gelen sayıları, $b yani harfler dizimizde ki keylere denk gelen harflerle eşleştiriyoruz. Ve eşleşen harfler şifrelenmiş metnimiz oluyor
     }
 }
-$sifre = (implode($sifre));
+$sifre = (implode($sifre)); //sifre dizisini string'e çeviriyoruz
 
 echo "Orjinal metin : <b>" . $originpass;
 echo "</b><br>";
+echo "Key Değeri : <b>" . $originkey;
+echo "</b><br><br>";
 echo "Şifre : <b>" . $sifre;
