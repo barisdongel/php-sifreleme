@@ -10,7 +10,7 @@ if(isset($_POST['encrypt'])) {
     array_unshift($b, "phoney"); //$b dizisinin indisini 1'den başlatmak için boş eleman ekleyip 1.indisi siliyoruz
     unset($b[0]);
 
-    for ($i = 0; $i < 26; $i++) { //26 kere dön
+    for ($i = 0; $i < count($ch); $i++) { //26 kere dön
         if (!array_key_exists($i, $ch)) { //eğer $i değeri sifre uzunluğundan büyükse döngüden çık. (key harf sayısı kadar dönüyor döngü)
             break;
         } else {
