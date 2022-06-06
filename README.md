@@ -1,5 +1,5 @@
 # php-sifreleme
-> Encrypting and Decrypting app with PHP
+Encrypting and Decrypting app with PHP
 
 # Images
 > # Home page
